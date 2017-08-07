@@ -151,3 +151,158 @@ madspin    = OFF
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+W-
+----
+
+
+You are inside the 'trilinear-RW' folder.
+
+1. Copy hhh-model in 'MG5_aMC_v2_5_5/models/'. 
+   launch './bin/mg5_aMC' in 'MG5_aMC_v2_5_5' and generate 
+   WH process with following syntax, 
+
+./bin/mg5_aMC
+
+----------------------------------
+import model hhh-model
+generate p p > h w- [LOonly= QCD]
+output hwm_MC
+quit
+----------------------------------
+
+2. copy "gevirt.sh" from 'trilinear-RW' in 'MG5_aMC_v2_5_5' and run './gevirt.sh hz_MC'
+   (Gives two outputs: "check_olp.inc" & "proc_ml")
+
+./gevirt.sh hwm_MC
+
+
+3. copy "vvh-loop_diagram_generation.py"  from 'trilinear-RW' in 'madgraph/loop/' and 
+   rename it as "loop_diagram_generation.py" 
+
+
+
+4. generate EW virtual subprocesses collected in "proc_ml" using 'hhh-model' with output 'hz_ME'
+   (DO NOT INSTALL 'collier'. In case you end up installing it, disable it in 
+    "MG5_aMC_v2_5_5/input/mg5_configuration.txt" by setting 'collier = None' and remove the # in 
+    front of it.)
+
+
+
+./bin/mg5_aMC
+
+----------------------------------
+import model hhh-model
+generate u~ d > h w- [virt=QED]
+add process d u~ > h w- [virt=QED]
+output hwm_ME
+quit
+----------------------------------
+
+
+
+
+5. copy following files in 'hz_ME/SubProcesses/'
+ "makefile", "check_OLP.f", "check_olp.inc" (provided+generated),
+ "pmass.inc", "nsqso_born.inc", "nsquaredSO.inc" (from one of the subprocess folders in 'hz_ME'),
+ "c_weight.inc" (from 'hz_MC/SubProcesses') and "nexternal.inc" (from one of the subprocess folders in 'hz_MC')
+
+ 
+cp ../trilinear-RW/makefile  hwm_ME/SubProcesses/
+cp ../trilinear-RW/check_OLP.f  hwm_ME/SubProcesses/
+cp check_olp.inc  hwm_ME/SubProcesses/
+
+
+cp hwm_ME/SubProcesses/P0_uxd_hwm/pmass.inc        hwm_ME/SubProcesses/
+cp hwm_ME/SubProcesses/P0_uxd_hwm/nsqso_born.inc   hwm_ME/SubProcesses/
+cp hwm_ME/SubProcesses/P0_uxd_hwm/nsquaredSO.inc   hwm_ME/SubProcesses/
+cp hwm_MC/SubProcesses/c_weight.inc hwm_ME/SubProcesses/
+cp hwm_MC/SubProcesses/P0_dux_hwm/nexternal.inc hwm_ME/SubProcesses/
+
+
+ 
+6. copy "libpdf.a", "libLHAPDF.a", 'Pdfdata', 'PDFsets' from the 'lib' folder of any process already generated 
+   in Madgraph to 'hz_ME/lib/'
+
+
+cp MYW/lib/libpdf.a       hwm_ME/lib/
+cp ../../../install-LHAPDF/lib/libLHAPDF.a hwm_ME/lib/
+cp -r MYW/lib/Pdfdata hwm_ME/lib/Pdfdata/
+
+cp -r MYW/lib/PDFsets hwm_ME/lib/PDFsets/    ----> not found!!
+
+
+
+7. Go to 'hz_ME/SubProcesses/' folder and,  
+----------------
+make OLP_static
+make check_OLP
+----------------
+   (the output is an executable file 'check_OLP')
+
+cd hwm_ME/SubProcesses
+
+make OLP_static
+make check_OLP
+
+
+8. set 'True = store rwgt info' in "hz_MC/Cards/run_card.dat"
+
+
+
+
+9. generate LO events in 'hz_MC' with following options 
+-----------------
+fixedorder = OFF
+shower     = OFF
+reweight   = OFF
+order      = LO
+madspin    = OFF
+-----------------
+
+cd hwm_MC
+./bin/generate_events
+1
+3
+
+
+
+9. move the LO lhe event file (don't forget to unzip it!) to 'hz_ME/SubProcesses/' and execute './check_OLP'
+   (note that the input file name should be "events.lhe"(unweighted) and you get an output file named 
+   "events_rwgt.lhe" (weighted).)
+
+cd ../hwm_ME/SubProcesses/
+cp ../../hwm_MC/Events/run_01_LO/events.lhe.gz  .
+gunzip events.lhe.gz
+    
+./check_OLP
+    
+    
+    
+10. The steps can be repeated for WH, VBF, tHj and ttH processes.
+
+    
+    
+    

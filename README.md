@@ -80,7 +80,8 @@ W+, step by step:
     ./bin/mg5_aMC    
     
          import model hhh-model
-         generate p p > h w+ [virt=QED]
+         generate u d~ > w+ h [virt=QED]
+         add process d~ u > w+ h [virt=QED]
             
          output hwp_ME
          quit
@@ -99,9 +100,9 @@ W+, step by step:
                   lhaid=244600
     
     cp check_olp.inc  hwp_ME/SubProcesses/
-    cp hwp_ME/SubProcesses/P0_udx_hwp/pmass.inc hwp_ME/SubProcesses/
-    cp hwp_ME/SubProcesses/P0_udx_hwp/nsqso_born.inc hwp_ME/SubProcesses/
-    cp hwp_ME/SubProcesses/P0_udx_hwp/nsquaredSO.inc hwp_ME/SubProcesses/
+    cp hwp_ME/SubProcesses/P0_udx_wph/pmass.inc hwp_ME/SubProcesses/
+    cp hwp_ME/SubProcesses/P0_udx_wph/nsqso_born.inc hwp_ME/SubProcesses/
+    cp hwp_ME/SubProcesses/P0_udx_wph/nsquaredSO.inc hwp_ME/SubProcesses/
     cp hwp_MC/SubProcesses/c_weight.inc hwp_ME/SubProcesses/
     cp hwp_MC/SubProcesses/P0_dxu_wph/nexternal.inc hwp_ME/SubProcesses/
 
@@ -129,7 +130,7 @@ W+, step by step:
     1
     3
     
-generate LO events in 'hz_MC' with following options 
+generate LO events in 'hwp_MC' with following options 
 -----------------
 fixedorder = OFF
 shower     = OFF
@@ -145,5 +146,8 @@ madspin    = OFF
     
 
     ./check_OLP
+    
+    
+    
     
     

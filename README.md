@@ -614,6 +614,203 @@ gunzip events.lhe.gz
         
         
         
+ 
+    
+VBF
+----
+
+
+You are inside the 'trilinear-RW' folder.
+
+1. Copy hhh-model in 'MG5_aMC_v2_5_5/models/'. 
+   launch './bin/mg5_aMC' in 'MG5_aMC_v2_5_5' and generate 
+   WH process with following syntax, 
+
+./bin/mg5_aMC
+
+----------------------------------
+import model hhh-model
+generate p p > h j j [LOonly= QCD] QED=99
+<!-- generate p p > h j j [LOonly= QCD] -->
+<!--generate p p > h j j QED=99 QCD=0-->
+output hjj_MC
+quit
+----------------------------------
+
+2. copy "gevirt.sh" from 'trilinear-RW' in 'MG5_aMC_v2_5_5' and run './gevirt.sh hz_MC'
+   (Gives two outputs: "check_olp.inc" & "proc_ml")
+
+./gevirt.sh hjj_MC
+
+
+3. copy "vvh-loop_diagram_generation.py"  from 'trilinear-RW' in 'madgraph/loop/' and 
+   rename it as "loop_diagram_generation.py" 
+
+
+
+4. generate EW virtual subprocesses collected in "proc_ml" using 'hhh-model' with output 'hjj_ME'
+   (DO NOT INSTALL 'collier'. In case you end up installing it, disable it in 
+    "MG5_aMC_v2_5_5/input/mg5_configuration.txt" by setting 'collier = None' and remove the # in 
+    front of it.)
+
+
+
+./bin/mg5_aMC
+
+----------------------------------
+import model hhh-model
+
+generate d d~ > h c c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u d~ > h u d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ s > h c u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ d > h s c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ u > h d~ u QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ d > h c c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ s~ > h u~ s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ d > h d d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d c > h s u QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ c > h s d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ c > h d~ c QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ u > h c c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ s~ > h d~ s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d d > h d d QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ s~ > h d~ c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ u > h d d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d u~ > h s c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d c > h d c QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d u > h d u QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u s > h c d QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ d~ > h d~ d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u c~ > h u c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d d~ > h u u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ u~ > h u~ u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u u~ > h u u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u d~ > h c s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u u > h u u QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d u~ > h d u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d d~ > h d d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ c~ > h d~ c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ c~ > h u~ c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u c > h u c QED<=99 [ LOonly = QCD ] [virt=QED]
+add process s u > h c d QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ d > h u u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u s > h u s QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ d > h u~ d QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d s~ > h d s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ c > h u~ c QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ u > h c s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d s~ > h u c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u u~ > h c c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ d > h s s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d c~ > h d c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u d > h u d QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ u > h u u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u u~ > h s s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d s > h d s QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ u > h s s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process s~ u~ > h d~ c~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ s > h d~ s QED<=99 [ LOonly = QCD ] [virt=QED]
+add process c~ d~ > h u~ s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u s~ > h u s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d d~ > h s s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u c~ > h d s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ d~ > h u~ d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ u~ > h d~ u~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u~ s > h u~ s QED<=99 [ LOonly = QCD ] [virt=QED]
+add process u u~ > h d d~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process d~ c~ > h u~ s~ QED<=99 [ LOonly = QCD ] [virt=QED]
+add process c d > h s u QED<=99 [ LOonly = QCD ] [virt=QED]
+
+output hjj_ME
+quit
+----------------------------------
+
+
+
+
+5. copy following files in 'hjj_ME/SubProcesses/'
+ "makefile", "check_OLP.f", "check_olp.inc" (provided+generated),
+ "pmass.inc", "nsqso_born.inc", "nsquaredSO.inc" (from one of the subprocess folders in 'hjj_ME'),
+ "c_weight.inc" (from 'hjj_MC/SubProcesses') and "nexternal.inc" (from one of the subprocess folders in 'hjj_MC')
+
+ 
+cp ../trilinear-RW/makefile  hjj_ME/SubProcesses/
+cp ../trilinear-RW/check_OLP.f  hjj_ME/SubProcesses/
+cp check_olp.inc  hjj_ME/SubProcesses/
+
+
+cp hjj_ME/SubProcesses/P0_ddx_hccx/pmass.inc        hjj_ME/SubProcesses/
+cp hjj_ME/SubProcesses/P0_ddx_hccx/nsqso_born.inc   hjj_ME/SubProcesses/
+cp hjj_ME/SubProcesses/P0_ddx_hccx/nsquaredSO.inc   hjj_ME/SubProcesses/
+cp hjj_MC/SubProcesses/c_weight.inc hjj_ME/SubProcesses/
+cp hjj_MC/SubProcesses/P0_cd_hsu/nexternal.inc hjj_ME/SubProcesses/
+
+
+ 
+6. copy "libpdf.a", "libLHAPDF.a", 'Pdfdata', 'PDFsets' from the 'lib' folder of any process already generated 
+   in Madgraph to 'hjj_ME/lib/'
+
+
+cp MYW/lib/libpdf.a       hjj_ME/lib/
+cp ../../../install-LHAPDF/lib/libLHAPDF.a hjj_ME/lib/
+cp -r MYW/lib/Pdfdata hjj_ME/lib/Pdfdata/
+
+cp -r MYW/lib/PDFsets hjj_ME/lib/PDFsets/    ----> not found!!
+
+
+
+7. Go to 'hjj_ME/SubProcesses/' folder and,  
+----------------
+make OLP_static
+make check_OLP
+----------------
+   (the output is an executable file 'check_OLP')
+
+cd hjj_ME/SubProcesses
+
+make OLP_static
+make check_OLP
+
+
+8. set 'True = store rwgt info' in "hjj_MC/Cards/run_card.dat"
+
+
+
+
+9. generate LO events in 'hjj_MC' with following options 
+-----------------
+fixedorder = OFF
+shower     = OFF
+reweight   = OFF
+order      = LO
+madspin    = OFF
+-----------------
+
+cd hjj_MC
+./bin/generate_events
+1
+3
+
+
+
+9. move the LO lhe event file (don't forget to unzip it!) to 'hjj_ME/SubProcesses/' and execute './check_OLP'
+   (note that the input file name should be "events.lhe"(unweighted) and you get an output file named 
+   "events_rwgt.lhe" (weighted).)
+
+cd ../hjj_ME/SubProcesses/
+cp ../../hjj_MC/Events/run_01_LO/events.lhe.gz  .
+gunzip events.lhe.gz
+    
+./check_OLP
+    
+    
+    
+10. The steps can be repeated for WH, VBF, tHj and ttH processes.
+
+    
+                
+        
+        
         
 LHE analyzer
 ====
@@ -628,7 +825,11 @@ LHE analyzer
 ./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/hz_ME/SubProcesses/events_rwgt.lhe  z_after.root
 ./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/hz_ME/SubProcesses/events.lhe       z_before.root
  
- 
+./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/hjj_ME/SubProcesses/events_rwgt.lhe  hjj_after.root
+./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/hjj_ME/SubProcesses/events.lhe       hjj_before.root
+
+
+
 cd test
 
 r00t -l draw.cxx\(\"../wm_before.root\",\"../wm_after.root\",\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
@@ -646,6 +847,13 @@ r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",1,\"pth1[0]\",20,
 r00t -l drawKl.cxx\(\"../wm_before.root\",\"../wm_after.root\",10,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
 r00t -l drawKl.cxx\(\"../wp_before.root\",\"../wp_after.root\",10,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
 r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",10,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
+r00t   -l drawKl.cxx\(\"../hjj_before.root\",\"../hjj_after.root\",10,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
+
+
+r00t -l drawKl.cxx\(\"../wm_before.root\",\"../wm_after.root\",20,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
+r00t -l drawKl.cxx\(\"../wp_before.root\",\"../wp_after.root\",20,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
+r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",20,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
+
 
 
 

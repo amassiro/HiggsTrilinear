@@ -807,9 +807,113 @@ gunzip events.lhe.gz
     
 10. The steps can be repeated for WH, VBF, tHj and ttH processes.
 
+ 
+
+
+
+
+ 
+ttH, step by step:
     
-                
-        
+    
+    cp -r ../trilinear-RW/hhh-model/     MG5_aMC_v2_5_5/models/
+    
+    ./bin/mg5_aMC
+    
+    
+ 
+         import model hhh-model
+         generate p p > h t t~  [LOonly= QCD]
+         output htt_MC
+         quit
+
+    
+    
+    cp ../trilinear-RW/gevirt.sh .
+    ./gevirt.sh htt_MC
+         
+    cp ../trilinear-RW/tth-loop_diagram_generation.py madgraph/loop/loop_diagram_generation.py
+
+    
+    ./bin/mg5_aMC    
+    
+         import model hhh-model
+         generate p p > h t t~ [virt=QED]
+            
+         output htt_ME
+         quit
+ 
+ 
+    cp ../trilinear-RW/makefile  htt_ME/SubProcesses/
+    cp ../trilinear-RW/check_OLP.f  htt_ME/SubProcesses/
+    
+    
+    FIX: check_olp.inc 
+          
+          *        pdlabel='lhapdf'
+               pdlabel='nn23nlo'
+
+          *         lhaid=90500
+                  lhaid=244600
+    
+    cp check_olp.inc  htt_ME/SubProcesses/
+    cp htt_ME/SubProcesses/P1_uux_httx/pmass.inc htt_ME/SubProcesses/
+    cp htt_ME/SubProcesses/P1_uux_httx/nsqso_born.inc htt_ME/SubProcesses/
+    cp htt_ME/SubProcesses/P1_uux_httx/nsquaredSO.inc htt_ME/SubProcesses/
+    cp htt_MC/SubProcesses/c_weight.inc htt_ME/SubProcesses/
+    cp htt_MC/SubProcesses/P0_uux_httx/nexternal.inc htt_ME/SubProcesses/
+
+    
+    
+    cp MYW/lib/libpdf.a htt_ME/lib/
+    cp ../../../install-LHAPDF/lib/libLHAPDF.a htt_ME/lib/
+    cp -r MYW/lib/Pdfdata htt_ME/lib/Pdfdata/
+    
+    cp -r MYW/lib/PDFsets htt_ME/lib/PDFsets/    ----> not found!!
+    
+    
+    
+    cd htt_ME/SubProcesses
+    
+    make OLP_static
+    make check_OLP
+
+
+
+    set 'True = store rwgt info' in "htt_MC/Cards/run_card.dat"
+
+    cd ../../htt_MC
+    ./bin/generate_events
+    1
+    3
+    
+generate LO events in 'htt_MC' with following options 
+-----------------
+fixedorder = OFF
+shower     = OFF
+reweight   = OFF
+order      = LO
+madspin    = OFF
+-----------------
+
+
+    cd ../htt_ME/SubProcesses/
+    cp ../../htt_MC/Events/run_02_LO/events.lhe.gz  .
+    gunzip events.lhe.gz
+    
+
+    ./check_OLP
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         
         
 LHE analyzer
@@ -828,6 +932,8 @@ LHE analyzer
 ./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/hjj_ME/SubProcesses/events_rwgt.lhe  hjj_after.root
 ./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/hjj_ME/SubProcesses/events.lhe       hjj_before.root
 
+./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/htt_ME/SubProcesses/events_rwgt.lhe  htt_after.root
+./ntupleMaker.exe  ../HiggsTrilinear/MG5_aMC_v2_5_5/htt_ME/SubProcesses/events.lhe       htt_before.root
 
 
 cd test
@@ -837,6 +943,9 @@ r00t -l draw.cxx\(\"../wp_before.root\",\"../wp_after.root\",\"pth1[0]\",20,0,20
 r00t -l draw.cxx\(\"../z_before.root\",\"../z_after.root\",\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
 
 
+r00t -l drawKl.cxx\(\"../wm_before.root\",\"../wm_after.root\",1,\"pth1[0]\",40,0,400,\"p_{T}^{H}\"\)
+r00t -l drawKl.cxx\(\"../wp_before.root\",\"../wp_after.root\",1,\"pth1[0]\",40,0,400,\"p_{T}^{H}\"\)
+r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",1,\"pth1[0]\",40,0,400,\"p_{T}^{H}\"\)
 
 
 r00t -l drawKl.cxx\(\"../wm_before.root\",\"../wm_after.root\",1,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
@@ -853,6 +962,11 @@ r00t   -l drawKl.cxx\(\"../hjj_before.root\",\"../hjj_after.root\",10,\"pth1[0]\
 r00t -l drawKl.cxx\(\"../wm_before.root\",\"../wm_after.root\",20,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
 r00t -l drawKl.cxx\(\"../wp_before.root\",\"../wp_after.root\",20,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
 r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",20,\"pth1[0]\",20,0,200,\"p_{T}^{H}\"\)
+
+
+
+
+r00t -l drawKl.cxx\(\"../htt_before.root\",\"../htt_after.root\",10,\"pth1[0]\",20,0,400,\"p_{T}^{H}\"\)
 
 
 

@@ -973,5 +973,12 @@ r00t -l drawKl.cxx\(\"../htt_before.root\",\"../htt_after.root\",10,\"pth1[0]\",
 
 
 
+
+Combine
+====
+
+    https://cms-hcomb.gitbooks.io/combine/content/part1/#for-end-users-that-dont-need-to-commit-or-do-any-development
+ 
+    /afs/cern.ch/work/a/amassiro/Latinos/Framework/Combine/HiggsTrilinear/CMSSW_8_1_0/src/
  
  

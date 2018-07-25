@@ -967,6 +967,7 @@ r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",20,\"pth1[0]\",20
 r00t -l drawKl.cxx\(\"../wm_before.root\",\"../wm_after.root\",1,\"pth1[0]\",20,0,400,\"p_{T}^{H}\"\)
 r00t -l drawKl.cxx\(\"../wp_before.root\",\"../wp_after.root\",1,\"pth1[0]\",20,0,400,\"p_{T}^{H}\"\)
 r00t   -l drawKl.cxx\(\"../z_before.root\",\"../z_after.root\",1,\"pth1[0]\",20,0,400,\"p_{T}^{H}\"\)
+r00t -l drawKl.cxx\(\"../htt_before.root\",\"../htt_after.root\",1,\"pth1[0]\",20,0,400,\"p_{T}^{H}\"\)
 
 
 r00t -l drawKl.cxx\(\"../htt_before.root\",\"../htt_after.root\",10,\"pth1[0]\",20,0,400,\"p_{T}^{H}\"\)
@@ -976,7 +977,8 @@ r00t -l drawKl.cxx\(\"../htt_before.root\",\"../htt_after.root\",10,\"pth1[0]\",
 
 Where:
 
-    /home/amassiro/Cern/Code/VHBSM/HiggsTrilinear
+    /home/amassiro/Cern/Code/VHBSM/HiggsTrilinear/
+    /home/amassiro/Cern/Code/VHBSM/LatinoTreesLHE/test/
 
 
 Combine
